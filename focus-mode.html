@@ -6,10 +6,16 @@
     <style>
         .timer { font-size: 2em; text-align: center; margin: 20px 0; }
         button { width: 100%; margin: 10px 0; }
+        #card-content { border: 1px solid #ccc; padding: 10px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div id="content">
+        <h2 id="list-name"></h2>
+        <div id="card-content">
+            <div id="card-title"></div>
+            <div id="card-desc"></div>
+        </div>
         <div class="timer" id="timer">10:00</div>
         <button id="start-btn">Start Focus</button>
         <button id="done-btn" style="display:none;">Done</button>
