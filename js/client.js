@@ -7,8 +7,8 @@ TrelloPowerUp.initialize({
             text: 'Start Focus Mode',
             callback: function(t) {
                 return t.popup({
-                    title: "Focus Mode",
-                    url: './focus-mode.html',
+                    title: "Select Column for Focus Mode",
+                    url: './select-column.html',
                     height: 300
                 });
             }
@@ -25,14 +25,5 @@ TrelloPowerUp.initialize({
                 });
             }
         }];
-    },
-    'card-badges': function(t, options) {
-        return t.get('card', 'shared', 'focusTime').then(function(focusTime) {
-            return [{
-                icon: GRAY_ICON,
-                text: focusTime ? focusTime + ' min focused' : 'Not started',
-                color: focusTime ? 'green' : 'red'
-            }];
-        });
     }
 });
