@@ -36,5 +36,22 @@ TrelloPowerUp.initialize({
                 color: focusTime ? 'green' : 'red'
             }];
         });
+    },
+    'list-buttons': function(t, options) {
+        return t.lists('all').then(function(lists) {
+            return lists.map(function(list) {
+                return {
+                    text: `Start Focus in ${list.name}`,
+                    callback: function(t) {
+                        return t.popup({
+                            title: `Focus Mode in ${list.name}`,
+                            url: './focus-mode.html',
+                            args: { listId: list.id },
+                            height: 300
+                        });
+                    }
+                };
+            });
+        });
     }
 });
