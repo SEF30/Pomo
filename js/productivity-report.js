@@ -42,4 +42,9 @@ t.render(function() {
         var sortedUsers = Object.entries(userProductivity).sort((a, b) => b[1] - a[1]);
         var topPerformersHtml = '<h3>Top Performers</h3><ol>';
         sortedUsers.slice(0, 5).forEach(function([cardId, focusTime]) {
-            topPerformersHtml += `<li>Card ${
+            topPerformersHtml += `<li>Card ${cardId}: ${focusTime} minutes</li>`;
+        });
+        topPerformersHtml += '</ol>';
+        document.getElementById('top-performers').innerHTML = topPerformersHtml;
+    });
+});
