@@ -4,9 +4,21 @@ var timeLeft = 600; // 10 minutes
 var timerInterval;
 var audio = new Audio('https://yourdomain.com/tick-tock-sound.mp3'); // Remplacez par votre propre URL de fichier audio hébergé
 
-var listId = t.arg('listId'); // Récupère l'ID de la liste
+var listId = null; 
 var cards = [];
 var currentCardIndex = 0;
+
+function fetchColumns() {
+    return t.lists('all').then(function(lists) {
+        var select = document.getElementById('column-select');
+        lists.forEach(function(list) {
+            var option = document.createElement('option');
+            option.value = list.id;
+            option.text = list.name;
+            select.add(option);
+        });
+    });
+}
 
 function fetchCards() {
     return t.lists('all').then(function(lists) {
@@ -31,11 +43,11 @@ function displayCard() {
         t.set('card', 'shared', 'currentCardId', card.id);
         document.getElementById('card-title').innerText = card.name;
         document.getElementById('card-desc').innerText = card.desc;
-        document.getElementById('start-btn').style.display = 'block';
-        document.getElementById('done-btn').style.display = 'none';
-        document.getElementById('skip-btn').style.display = 'none';
+        document.getElementById('done-btn').style.display = 'block';
+        document.getElementById('skip-btn').style.display = 'block';
         document.getElementById('timer').textContent = '10:00';
         timeLeft = 600;
+        document.getElementById('focus-content').style.display = 'block';
     } else {
         alert('No more cards in the list.');
         t.closePopup();
@@ -44,9 +56,6 @@ function displayCard() {
 
 function startTimer() {
     document.getElementById('start-btn').style.display = 'none';
-    document.getElementById('done-btn').style.display = 'block';
-    document.getElementById('skip-btn').style.display = 'block';
-    
     timerInterval = setInterval(function() {
         timeLeft--;
         updateTimerDisplay();
@@ -98,10 +107,14 @@ function logTask(action) {
     });
 }
 
-document.getElementById('start-btn').addEventListener('click', startTimer);
+document.getElementById('start-btn').addEventListener('click', function() {
+    listId = document.getElementById('column-select').value;
+    fetchCards();
+    startTimer();
+});
 document.getElementById('done-btn').addEventListener('click', completeTask);
 document.getElementById('skip-btn').addEventListener('click', skipTask);
 
 t.render(function() {
-    fetchCards();
+    fetchColumns();
 });
