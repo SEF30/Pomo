@@ -9,17 +9,24 @@ var cards = [];
 var currentCardIndex = 0;
 
 function fetchCards() {
-    return t.cards('all').then(function(allCards) {
-        cards = allCards.filter(card => card.idList === listId);
-        if (cards.length > 0) {
-            loadCard(cards[0]);
-        }
+    return t.lists('all').then(function(lists) {
+        var list = lists.find(l => l.id === listId);
+        return t.cards('all').then(function(allCards) {
+            cards = allCards.filter(card => card.idList === list.id);
+            if (cards.length > 0) {
+                loadCard(cards[0]);
+            } else {
+                alert('No cards in this column.');
+                t.closePopup();
+            }
+        });
     });
 }
 
 function loadCard(card) {
     var cardContainer = document.getElementById('card-container');
     cardContainer.innerHTML = `<iframe src="https://trello.com/c/${card.id}" style="width: 100%; height: 80vh;"></iframe>`;
+    startTimer();
 }
 
 function nextCard() {
@@ -28,6 +35,7 @@ function nextCard() {
         loadCard(cards[currentCardIndex]);
     } else {
         alert('No more cards.');
+        t.closePopup();
     }
 }
 
@@ -55,6 +63,8 @@ function logTask(action, cardId) {
 }
 
 function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = 600; // Reset timer to 10 minutes
     timerInterval = setInterval(function() {
         timeLeft--;
         updateTimerDisplay();
@@ -75,5 +85,4 @@ function updateTimerDisplay() {
 
 t.render(function() {
     fetchCards();
-    startTimer();
 });
