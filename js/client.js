@@ -1,18 +1,22 @@
-var GRAY_ICON = 'https://yourdomain.com/icon-gray.svg';  // Replace with your own hosted icon URL
+var GRAY_ICON = 'https://yourdomain.com/icon-gray.svg';  // Remplacez par votre propre URL d'icône hébergée
 
 TrelloPowerUp.initialize({
-    'card-buttons': function(t, options) {
-        return [{
-            icon: GRAY_ICON,
-            text: 'Focus Mode',
-            callback: function(t) {
-                return t.popup({
-                    title: "Focus Mode",
-                    url: './focus-mode.html',
-                    height: 300
-                });
-            }
-        }];
+    'list-buttons': function(t, options) {
+        return t.lists('all').then(function(lists) {
+            return lists.map(function(list) {
+                return {
+                    text: `Start Focus in ${list.name}`,
+                    callback: function(t) {
+                        return t.popup({
+                            title: `Focus Mode in ${list.name}`,
+                            url: './focus-mode.html',
+                            args: { listId: list.id },
+                            height: 300
+                        });
+                    }
+                };
+            });
+        });
     },
     'board-buttons': function(t, options) {
         return [{
@@ -35,23 +39,6 @@ TrelloPowerUp.initialize({
                 text: focusTime ? focusTime + ' min focused' : 'Not started',
                 color: focusTime ? 'green' : 'red'
             }];
-        });
-    },
-    'list-buttons': function(t, options) {
-        return t.lists('all').then(function(lists) {
-            return lists.map(function(list) {
-                return {
-                    text: `Start Focus in ${list.name}`,
-                    callback: function(t) {
-                        return t.popup({
-                            title: `Focus Mode in ${list.name}`,
-                            url: './focus-mode.html',
-                            args: { listId: list.id },
-                            height: 300
-                        });
-                    }
-                };
-            });
         });
     }
 });
