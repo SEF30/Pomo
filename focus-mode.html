@@ -3,17 +3,23 @@
 <head>
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        #productivity-chart { width: 100%; height: 300px; }
+        .focus-container { display: flex; flex-direction: column; align-items: center; }
+        .card-container { width: 80%; }
+        .controls { display: flex; justify-content: space-between; width: 80%; margin-top: 20px; }
+        .timer { font-size: 2em; text-align: center; margin: 20px 0; }
+        button { flex: 1; margin: 0 10px; }
     </style>
 </head>
 <body>
-    <div id="content">
-        <h2>Productivity Report</h2>
-        <canvas id="productivity-chart"></canvas>
-        <div id="top-performers"></div>
+    <div class="focus-container">
+        <div class="card-container" id="card-container"></div>
+        <div class="timer" id="timer">10:00</div>
+        <div class="controls">
+            <button id="done-btn">Done</button>
+            <button id="skip-btn">Skip</button>
+        </div>
     </div>
-    <script src="./js/productivity-report.js"></script>
+    <script src="./js/focus-mode.js"></script>
 </body>
 </html>
