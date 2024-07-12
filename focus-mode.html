@@ -3,27 +3,12 @@
 <head>
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
-    <style>
-        .timer { font-size: 2em; text-align: center; margin: 20px 0; }
-        button { width: 100%; margin: 10px 0; }
-        #card-content { border: 1px solid #ccc; padding: 10px; margin: 20px 0; }
-    </style>
 </head>
 <body>
     <div id="content">
-        <h2>Select Column for Focus Mode</h2>
-        <select id="column-select"></select>
-        <button id="start-btn">Start Focus</button>
-        <div id="focus-content" style="display:none;">
-            <h2 id="list-name"></h2>
-            <div id="card-content">
-                <div id="card-title"></div>
-                <div id="card-desc"></div>
-            </div>
-            <div class="timer" id="timer">10:00</div>
-            <button id="done-btn" style="display:none;">Done</button>
-            <button id="skip-btn" style="display:none;">Skip</button>
-        </div>
+        <iframe id="trello-card-frame" style="width: 100%; height: 80vh;"></iframe>
+        <button id="done-btn">Done</button>
+        <button id="skip-btn">Skip</button>
     </div>
     <script src="./js/focus-mode.js"></script>
 </body>
