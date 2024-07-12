@@ -1,21 +1,22 @@
 var t = TrelloPowerUp.iframe();
 
-var listId = new URLSearchParams(window.location.search).get('listId');
+var timeLeft = 600; // 10 minutes
+var timerInterval;
+var audio = new Audio('https://yourdomain.com/tick-tock-sound.mp3'); // Remplacez par votre propre URL de fichier audio hébergé
+
+var listId = new URLSearchParams(window.location.search).get('listId'); 
 var cards = [];
 var currentCardIndex = 0;
 
 function fetchCards() {
-    return t.lists('all').then(function(lists) {
-        var list = lists.find(l => l.id === listId);
-        return t.cards('all').then(function(allCards) {
-            cards = allCards.filter(card => card.idList === listId);
-            if (cards.length > 0) {
-                loadCard(cards[0]);
-            } else {
-                alert('No cards in this column.');
-                t.closePopup();
-            }
-        });
+    return t.cards('all').then(function(allCards) {
+        cards = allCards.filter(card => card.idList === listId);
+        if (cards.length > 0) {
+            loadCard(cards[0]);
+        } else {
+            alert('No cards in this column.');
+            t.closePopup();
+        }
     });
 }
 
