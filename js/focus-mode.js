@@ -1,10 +1,15 @@
 var t = TrelloPowerUp.iframe();
 
-var currentCardIndex = 0;
-var cards = [];
+var timeLeft = 600; // 10 minutes
+var timerInterval;
+var audio = new Audio('https://yourdomain.com/tick-tock-sound.mp3'); // Remplacez par votre propre URL de fichier audio hébergé
 
-function fetchCards(listId) {
-    t.cards('all').then(function(allCards) {
+var listId = new URLSearchParams(window.location.search).get('listId'); 
+var cards = [];
+var currentCardIndex = 0;
+
+function fetchCards() {
+    return t.cards('all').then(function(allCards) {
         cards = allCards.filter(card => card.idList === listId);
         if (cards.length > 0) {
             loadCard(cards[0]);
@@ -13,8 +18,8 @@ function fetchCards(listId) {
 }
 
 function loadCard(card) {
-    var iframe = document.getElementById('trello-card-frame');
-    iframe.src = 'https://trello.com/c/' + card.id;
+    var cardContainer = document.getElementById('card-container');
+    cardContainer.innerHTML = `<iframe src="https://trello.com/c/${card.id}" style="width: 100%; height: 80vh;"></iframe>`;
 }
 
 function nextCard() {
@@ -49,7 +54,26 @@ function logTask(action, cardId) {
     });
 }
 
+function startTimer() {
+    timerInterval = setInterval(function() {
+        timeLeft--;
+        updateTimerDisplay();
+        audio.play();
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert('Focus time is up! Great job!');
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    var minutes = Math.floor(timeLeft / 60);
+    var seconds = timeLeft % 60;
+    document.getElementById('timer').textContent = 
+        (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
 t.render(function() {
-    var listId = t.arg('listId');
-    fetchCards(listId);
+    fetchCards();
+    startTimer();
 });
