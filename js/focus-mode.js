@@ -13,6 +13,7 @@ function fetchCards() {
         var list = lists.find(function(l) {
             return l.id === listId;
         });
+        document.getElementById('list-name').innerText = list.name;
         return t.cards('all').then(function(allCards) {
             cards = allCards.filter(function(card) {
                 return card.idList === list.id;
@@ -28,6 +29,8 @@ function displayCard() {
     if (cards.length > 0 && currentCardIndex < cards.length) {
         var card = cards[currentCardIndex];
         t.set('card', 'shared', 'currentCardId', card.id);
+        document.getElementById('card-title').innerText = card.name;
+        document.getElementById('card-desc').innerText = card.desc;
         document.getElementById('start-btn').style.display = 'block';
         document.getElementById('done-btn').style.display = 'none';
         document.getElementById('skip-btn').style.display = 'none';
