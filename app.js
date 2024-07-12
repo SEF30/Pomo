@@ -15,5 +15,19 @@ window.TrelloPowerUp.initialize({
         });
       }
     }];
+  },
+  'card-badges': function(t, options) {
+    return t.get('card', 'shared', 'focusTime')
+    .then(function(focusTime) {
+      if(focusTime) {
+        return [{
+          icon: GRAY_ICON,
+          text: focusTime + ' min focused',
+          color: 'green'
+        }];
+      } else {
+        return [];
+      }
+    });
   }
 });
