@@ -1,25 +1,19 @@
 var GRAY_ICON = 'https://yourdomain.com/icon-gray.svg';  // Remplacez par votre propre URL d'icône hébergée
 
 TrelloPowerUp.initialize({
-    'list-buttons': function(t, options) {
-        return t.lists('all').then(function(lists) {
-            return lists.map(function(list) {
-                return {
-                    text: `Start Focus in ${list.name}`,
-                    callback: function(t) {
-                        return t.popup({
-                            title: `Focus Mode in ${list.name}`,
-                            url: './focus-mode.html',
-                            args: { listId: list.id },
-                            height: 300
-                        });
-                    }
-                };
-            });
-        });
-    },
     'board-buttons': function(t, options) {
         return [{
+            icon: GRAY_ICON,
+            text: 'Start Focus Mode',
+            callback: function(t) {
+                return t.popup({
+                    title: "Focus Mode",
+                    url: './focus-mode.html',
+                    height: 300
+                });
+            }
+        },
+        {
             icon: GRAY_ICON,
             text: 'Productivity Report',
             callback: function(t) {
