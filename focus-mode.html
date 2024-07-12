@@ -11,15 +11,19 @@
 </head>
 <body>
     <div id="content">
-        <h2 id="list-name"></h2>
-        <div id="card-content">
-            <div id="card-title"></div>
-            <div id="card-desc"></div>
-        </div>
-        <div class="timer" id="timer">10:00</div>
+        <h2>Select Column for Focus Mode</h2>
+        <select id="column-select"></select>
         <button id="start-btn">Start Focus</button>
-        <button id="done-btn" style="display:none;">Done</button>
-        <button id="skip-btn" style="display:none;">Skip</button>
+        <div id="focus-content" style="display:none;">
+            <h2 id="list-name"></h2>
+            <div id="card-content">
+                <div id="card-title"></div>
+                <div id="card-desc"></div>
+            </div>
+            <div class="timer" id="timer">10:00</div>
+            <button id="done-btn" style="display:none;">Done</button>
+            <button id="skip-btn" style="display:none;">Skip</button>
+        </div>
     </div>
     <script src="./js/focus-mode.js"></script>
 </body>
