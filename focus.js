@@ -1,6 +1,6 @@
 var t = TrelloPowerUp.iframe();
 
-var timeLeft = 600; // 10 minutes
+var timeLeft = 1500; // 25 minutes
 var timerInterval;
 
 document.getElementById('start-btn').addEventListener('click', function() {
@@ -11,7 +11,11 @@ document.getElementById('start-btn').addEventListener('click', function() {
 
 document.getElementById('done-btn').addEventListener('click', function() {
   clearInterval(timerInterval);
-  t.closePopup();
+  var focusedTime = Math.round((1500 - timeLeft) / 60);
+  t.set('card', 'shared', 'focusTime', focusedTime)
+    .then(function(){
+      t.closePopup();
+    });
 });
 
 function startTimer() {
@@ -20,7 +24,7 @@ function startTimer() {
     document.getElementById('timer').textContent = formatTime(timeLeft);
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      alert('Time is up!');
+      alert('Focus time is up!');
     }
   }, 1000);
 }
@@ -32,5 +36,5 @@ function formatTime(seconds) {
 }
 
 t.render(function(){
-  // Rien à faire ici pour l'instant
+  // Nothing to do here
 });
