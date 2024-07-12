@@ -1,13 +1,11 @@
-var t = TrelloPowerUp.iframe();
+console.log('Power-Up is loading');
 
-// Clé API Trello
-const TRELLO_API_KEY = 'c31074f3d8e0e6f20463b1455798f962';
+var GRAY_ICON = 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg';
 
-// Initialisation du Power-Up
 window.TrelloPowerUp.initialize({
   'board-buttons': function(t, options){
     return [{
-      icon: 'https://example.com/icon.png',
+      icon: GRAY_ICON,
       text: 'Focus Mode',
       callback: function(t){
         return t.modal({
@@ -20,7 +18,7 @@ window.TrelloPowerUp.initialize({
   },
   'card-buttons': function(t, options) {
     return [{
-      icon: 'https://example.com/icon.png',
+      icon: GRAY_ICON,
       text: 'Focus on this',
       callback: function(t) {
         return t.modal({
@@ -33,7 +31,8 @@ window.TrelloPowerUp.initialize({
   }
 });
 
-// Logique du timer et des boutons
+var t = TrelloPowerUp.iframe();
+
 let timeLeft = 600; // 10 minutes en secondes
 let timerInterval;
 
@@ -43,7 +42,7 @@ function startTimer() {
     document.getElementById('timer').textContent = formatTime(timeLeft);
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      // Logique quand le temps est écoulé
+      alert('Temps écoulé !');
     }
   }, 1000);
 }
@@ -77,12 +76,3 @@ t.render(function(){
       startTimer();
     });
 });
-
-// Fonction pour obtenir un token (à utiliser avec précaution)
-function getToken() {
-  return t.getRestApi()
-    .getToken()
-    .then(function(token) {
-      console.log('Token:', token);
-    });
-}
