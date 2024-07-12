@@ -2,21 +2,41 @@ var t = TrelloPowerUp.iframe();
 
 t.render(function() {
     t.get('board', 'shared', 'completedTasks', []).then(function(completedTasks) {
+        var tasksByDay = {};
         var userProductivity = {};
 
         completedTasks.forEach(function(task) {
-            if (!userProductivity[task.cardId]) {
-                userProductivity[task.cardId] = { minutes: 0, actions: [] };
-            }
-            userProductivity[task.cardId].minutes += task.focusTime;
-            userProductivity[task.cardId].actions.push(task.action);
+            var date = new Date(task.date).toLocaleDateString();
+            tasksByDay[date] = (tasksByDay[date] || 0) + task.focusTime;
+            
+            userProductivity[task.cardId] = (userProductivity[task.cardId] || 0) + task.focusTime;
         });
 
-        var content = document.getElementById('content');
-        content.innerHTML = '<h2>Productivity Report</h2>';
-        Object.keys(userProductivity).forEach(function(cardId) {
-            var data = userProductivity[cardId];
-            content.innerHTML += `<div>Card ${cardId}: ${data.minutes} minutes, Actions: ${data.actions.join(', ')}</div>`;
+        // Create productivity chart
+        var ctx = document.getElementById('productivity-chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(tasksByDay),
+                datasets: [{
+                    label: 'Focus Time (minutes)',
+                    data: Object.values(tasksByDay),
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Focus Time (minutes)'
+                        }
+                    }
+                }
+            }
         });
-    });
-});
+
+        // Display top performers
+        var sortedUsers = Object.entries(userProductivity).sort((a, b) => b[1] - a[
